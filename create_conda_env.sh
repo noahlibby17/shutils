@@ -7,6 +7,7 @@
 #   $2: Path to the requirements.txt file
 # GLOBALS:
 #   CONDA_DEFAULT_ENV
+#   CONDA_PREFIX
 #
 # DESCRIPTION: Create Conda env from requirements.txt file.
 #   1. Creates empty Conda env & installs mamba                                               
@@ -35,7 +36,7 @@ conda create --name $1 -y
 
 ## Source conda 
 echo "Sourcing conda.sh"
-source ~/miniconda3/etc/profile.d/conda.sh
+source $CONDA_PREFIX/etc/profile.d/conda.sh
 
 ## Add conda-forge
 conda config --add channels conda-forge
