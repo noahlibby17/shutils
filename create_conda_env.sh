@@ -108,5 +108,16 @@ pip freeze | tee constraints.txt
 echo "Installing pip packages"
 pip install -r pip_packages.txt -c constraints.txt
 
+## Save as environment.yaml file
+echo "Adding conda packages to environment.yml"
+conda env export --name $1 --no-build > ${1}_environment.yml
+
+echo "Adding pip packages to environment.yml"
+prefix_line=$(grep "^prefix:" ${1}_environment.yml)
+sed -i '' '/^prefix:/d' ${1}_environment.yml
+awk 'BEGIN {print "\t- pip:"} {print "\t\t- " $0}' pip_packages.txt >> ${1}_environment.yml
+echo "$prefix_line" >> ${1}_environment.yml
+
+
 # Clean up
 rm conda_packages.txt pip_packages.txt constraints.txt
