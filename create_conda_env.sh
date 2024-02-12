@@ -118,6 +118,5 @@ sed -i '' '/^prefix:/d' ${1}_environment.yml
 awk 'BEGIN {print "\t- pip:"} {print "\t\t- " $0}' pip_packages.txt >> ${1}_environment.yml
 echo "$prefix_line" >> ${1}_environment.yml
 
-
 # Clean up
 rm conda_packages.txt pip_packages.txt constraints.txt
