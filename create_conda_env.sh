@@ -49,6 +49,40 @@ echo "Active environment: $CONDA_DEFAULT_ENV"
 echo "Installing mamba"
 conda install "mamba==1.4.9" -c conda-forge -y
 
+## Make sure jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "jq is not installed. Trying to install..."
+
+    # Determine correct package manager
+    if command -v apt-get &> /dev/null; then
+        package_manager="apt-get"
+    elif command -v yum &> /dev/null; then
+        package_manager="yum"
+    elif command -v brew &> /dev/null; then
+        package_manager="brew"
+    else
+        echo "Error: Unsupported package manager"
+    fi 
+
+    # Install jq
+    case $package_manager in
+        "apt-get")
+            #sudo apt-get update
+            sudo apt-get install -y jq
+            ;;
+        "yum")
+            #sudo yum update -y
+            sudo yum install -y jq
+            ;;
+        "brew")
+            brew install jq
+            ;;
+    esac
+
+else
+    echo "jq is already installed."
+fi
+
 ## Iterate through the requirements.txt file
 while IFS= read -r package
 do
