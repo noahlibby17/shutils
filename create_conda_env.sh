@@ -107,7 +107,7 @@ done < $2
 
 ## Install the conda packages
 echo "Installing conda packages"
-conda install -f conda_packages.txt
+conda install --file conda_packages.txt
 ## Install the pip packages, using conda packages as constraints
 pip freeze | tee constraints.txt
 echo "Installing pip packages"
@@ -120,8 +120,8 @@ conda env export --name $1 --no-build > ${1}_environment.yml
 echo "Adding pip packages to environment.yml"
 prefix_line=$(grep "^prefix:" ${1}_environment.yml)
 awk '!/^prefix:/' "${1}_environment.yml" > "environment_temp.yml" && mv "environment_temp.yml" "${1}_environment.yml"
-awk 'BEGIN {print "\t- pip:"} {print "\t\t- " $0}' pip_packages.txt >> ${1}_environment.yml
+awk 'BEGIN {print "\- pip:"} {print "\t\t- " $0}' pip_packages.txt >> ${1}_environment.yml
 echo "$prefix_line" >> ${1}_environment.yml
 
 # Clean up
-rm conda_packages.txt pip_packages.txt constraints.txt environment_temp.yml
+rm conda_packages.txt pip_packages.txt constraints.txt
