@@ -120,7 +120,7 @@ conda env export --name $1 --no-build > ${1}_environment.yml
 echo "Adding pip packages to environment.yml"
 prefix_line=$(grep "^prefix:" ${1}_environment.yml)
 awk '!/^prefix:/' "${1}_environment.yml" > "environment_temp.yml" && mv "environment_temp.yml" "${1}_environment.yml"
-awk 'BEGIN {print "\- pip:"} {print "\t\t- " $0}' pip_packages.txt >> ${1}_environment.yml
+awk 'BEGIN {print "  - pip:"} {print "    - " $0}' pip_packages.txt >> ${1}_environment.yml
 echo "$prefix_line" >> ${1}_environment.yml
 
 # Clean up
