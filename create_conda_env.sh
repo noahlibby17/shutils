@@ -36,14 +36,19 @@ conda create --name $1 -y
 
 ## Source conda 
 echo "Sourcing conda.sh"
-source $CONDA_PREFIX/etc/profile.d/conda.sh
+source ${CONDA_PREFIX}/etc/profile.d/conda.sh
 
 ## Add conda-forge
 conda config --add channels conda-forge
 
 echo "Activating environment"
-conda activate $1
-echo "Active environment: $CONDA_DEFAULT_ENV"
+if ! command -v conda activate $1 &> /dev/null; then
+    echo "Conda activate command not found. Shell could not be initialized. Exiting..."
+    exit 1
+else
+    conda activate $1
+    echo "Active environment: $CONDA_DEFAULT_ENV"
+fi
 
 ## Install mamba in new env
 echo "Installing mamba"
@@ -114,9 +119,9 @@ conda env export --name $1 --no-build > ${1}_environment.yml
 
 echo "Adding pip packages to environment.yml"
 prefix_line=$(grep "^prefix:" ${1}_environment.yml)
-sed -i '' '/^prefix:/d' ${1}_environment.yml
+awk '!/^prefix:/' "${1}_environment.yml" > "environment_temp.yml" && mv "environment_temp.yml" "${1}_environment.yml"
 awk 'BEGIN {print "\t- pip:"} {print "\t\t- " $0}' pip_packages.txt >> ${1}_environment.yml
 echo "$prefix_line" >> ${1}_environment.yml
 
 # Clean up
-rm conda_packages.txt pip_packages.txt constraints.txt
+rm conda_packages.txt pip_packages.txt constraints.txt environment_temp.yml
