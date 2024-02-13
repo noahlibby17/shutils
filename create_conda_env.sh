@@ -10,15 +10,16 @@
 #   CONDA_PREFIX
 #
 # DESCRIPTION: Create Conda env from requirements.txt file.
-#   1. Creates empty Conda env & installs mamba                                               
+#   1. Creates empty Conda env & installs mamba/jq                                               
 #   2. Determines proper channel to install packages from (i.e. pip, conda-forge, etc.) 
 #   3. Installs conda packages                                              
-#   4. Installs pip packages    
-#   5. Clean up
+#   4. Installs pip packages   
+#   5. Export environment.yml file 
+#   6. Clean up
 # 
 # AUTHOR: Noah Libby
-# CREATED: 02-2024
-# VERSION: 02-2024
+# CREATED: 2024-02
+# VERSION: 2024-02
 #######################################
 
 cat << "EOF"
