@@ -6,7 +6,7 @@
   \/_____/ \/_/\/_/ \/_____/   \/_/  \/_/ \/_____/ \/_____/  
 ```                                                   
 
-*A collection of helpful shell scripts that I have written along the way.*
+*A collection of helpful unix-based shell scripts that I have written along the way.*
 
 -----
 
