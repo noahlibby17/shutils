@@ -38,6 +38,7 @@ conda create --name $1 -y
 ## Source conda 
 echo "Sourcing conda.sh"
 source ${CONDA_PREFIX}/etc/profile.d/conda.sh
+conda activate base
 
 ## Add conda-forge
 conda config --add channels conda-forge
