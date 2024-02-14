@@ -29,16 +29,24 @@ cat << "EOF"
  |_|  |_\__,_\__,_\___| |_.__/\_, | |_|\_\___/\__,_|_||_|
                               |__/                       
 EOF
-
-# Create and activate new env
 echo "----------"
-echo "Creating new conda env: $1"
-conda create --name $1 -y
 
 ## Source conda 
 echo "Sourcing conda.sh"
 source ${CONDA_PREFIX}/etc/profile.d/conda.sh
 conda activate base
+
+## Install mamba in base env
+if mamba --version; then
+    echo "Mamba is already installed in base environment."
+else    
+    echo "Installing mamba in base environment"
+    conda install "mamba==1.4.9" -c conda-forge -y
+fi
+
+# Create and activate new env
+echo "Creating new conda env: $1"
+conda create --name $1 -y
 
 ## Add conda-forge
 conda config --add channels conda-forge
@@ -51,10 +59,6 @@ else
     conda activate $1
     echo "Active environment: $CONDA_DEFAULT_ENV"
 fi
-
-## Install mamba in new env
-echo "Installing mamba"
-conda install "mamba==1.4.9" -c conda-forge -y
 
 ## Make sure jq is installed
 if ! command -v jq &> /dev/null; then
